@@ -6,21 +6,30 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Button,
-  Linking,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 
 const App = () => {
+  const [turn, setTurn] = useState(0)
+  const [sum, setSum] = useState(0)
+  const sumIncreaseHandler = () => {
+    //turn+=1
+    //sum=5*turn
+    setTurn(turn+1)
+    setSum(sum+5)
+  }
+
   return (
     <View style={styles.body}>
-      <Text style={styles.text}>Co tam Doc?</Text>
-      <Button title='Clik Me' onPress={() => {Linking.openURL("geo:37.484847,-122.148386")}}></Button>
+      <Text style={styles.text}>Sum : {sum}</Text>
+      <Button title='Clik Me' onPress={sumIncreaseHandler}></Button>
+      <Text style={styles.text}>Turns : {turn}</Text>
     </View>
   );
 };
