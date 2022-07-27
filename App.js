@@ -2,44 +2,51 @@
 import React, { useState } from 'react';
 
 import {
+  RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 
 const App = () => {
-  
+  const [Items, setItems] = useState([
+    { key: 1, i: 'Item 1' },
+    { key: 2, i: 'Item 2' },
+    { key: 3, i: 'Item 3' },
+    { key: 4, i: 'Item 4' },
+    { key: 5, i: 'Item 5' },
+    { key: 6, i: 'Item 6' },
+    { key: 7, i: 'Item 7' },
+    { key: 8, i: 'Item 8' },
+    { key: 9, i: 'Item 9' },
+    { key: 10, i: 'Item 10' },
+  ]);
+  const [Refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setItems([...Items, { key: 69, i: 'Nowy 123' }]);
+    setRefreshing(false);
+  }
   return (
     <View style={styles.body}>
-      <View style={styles.row}>
-        <View style={styles.col1}>
-          <Text style={styles.text}>1</Text>
-        </View>
-        <View style={styles.col2}>
-          <Text style={styles.text}>2</Text>
-        </View>
-        <View style={styles.col3}>
-          <Text style={styles.text}>3</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <View style={styles.col4}>
-          <Text style={styles.text}>4</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <View style={styles.col5}>
-          <Text style={styles.text}>5</Text>
-        </View>
-      </View>
-      <View style={styles.big_row}>
-        <View style={styles.col6}>
-          <Text style={styles.text}>6</Text>
-        </View>
-        <View style={styles.col7}>
-          <Text style={styles.text}>7.2</Text>
-        </View>
-      </View>
+      <ScrollView refreshControl={
+        <RefreshControl
+          refreshing={Refreshing}
+          onRefresh={onRefresh}
+          colors={['#a00','#730','#460','#190','#0c0']}
+        />
+      }>
+        {
+          Items.map((i) => {
+            return (
+              <View style={styles.item} key={i.key}>
+                <Text style={styles.text}>{i.i}</Text>
+              </View>
+            )
+          })
+        }
+      </ScrollView>
     </View>
   );
 };
@@ -47,71 +54,20 @@ const App = () => {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    flexDirection: 'column',
     backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
   },
-  row: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
+  item: {
+    backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
+    height: 75,
+    margin: 20,
   },
-  big_row: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-  col1: {
-    flex: 1,
-    backgroundColor: '#00ffff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  col2: {
-    flex: 2,
-    backgroundColor: '#f0f',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  col3: {
-    flex: 3,
-    backgroundColor: '#ff0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  col4: {
-    flex: 1,
-    backgroundColor: '#f00',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  col5: {
-    flex: 1,
-    backgroundColor: '#0f0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  col6: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  col7: {
-    flex: 1,
-    backgroundColor: '#00f',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   text: {
-    color: '#000000',
-    fontSize: 35,
+    color: 'purple',
+    fontSize: 30,
     fontStyle: 'italic',
-    margin: 10,
   },
 });
 
