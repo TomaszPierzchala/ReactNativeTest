@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import {
   RefreshControl,
-  ScrollView,
+  SectionList,
   StyleSheet,
   Text,
   View,
@@ -11,42 +11,45 @@ import {
 
 const App = () => {
   const [Items, setItems] = useState([
-    { key: 1, i: 'Item 1' },
-    { key: 2, i: 'Item 2' },
-    { key: 3, i: 'Item 3' },
-    { key: 4, i: 'Item 4' },
-    { key: 5, i: 'Item 5' },
-    { key: 6, i: 'Item 6' },
-    { key: 7, i: 'Item 7' },
-    { key: 8, i: 'Item 8' },
-    { key: 9, i: 'Item 9' },
-    { key: 10, i: 'Item 10' },
-  ]);
+    { title: 'Title 1', data: ["1-1","1-2","1-3","1-4"] },
+    { title: 'Title 2', data: ["2-1","2-2","2-3","2-4"] },
+    { title: 'Title 3', data: ["3-1","3-2","3-3","3-4"] },
+    { title: 'Title 4', data: ["4-1","4-2","4-3","4-4"] },
+    { title: 'Title 5', data: ["5-1","5-2","5-3","5-4"] },
+    { title: 'Title 6', data: ["6-1","6-2","6-3","6-4"] },
+  ])
   const [Refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
     setRefreshing(true);
-    setItems([...Items, { key: 69, i: 'Nowy 123' }]);
+    setItems([...Items, { title: 'Title A', data: ["A-1","A-2","A-3","A-4"] }]);
     setRefreshing(false);
   }
   return (
     <View style={styles.body}>
-      <ScrollView refreshControl={
+      <SectionList refreshControl={
         <RefreshControl
           refreshing={Refreshing}
           onRefresh={onRefresh}
           colors={['#a00','#730','#460','#190','#0c0']}
-        />
-      }>
-        {
-          Items.map((i) => {
-            return (
-              <View style={styles.item} key={i.key}>
-                <Text style={styles.text}>{i.i}</Text>
-              </View>
-            )
-          })
+        />}
+        keyExtractor={(item, idx) => idx.toString()}
+        sections = {Items}
+        renderItem={
+          ({item}) => (
+            <View style={styles.item}>
+            <Text style={styles.text}>{item}</Text>
+            </View>
+          )
         }
-      </ScrollView>
+        
+        renderSectionHeader={
+          ({section})=>(
+            <View style={styles.item_header}>
+            <Text style={styles.text}>{section.title}</Text>
+            </View>
+          )
+        }
+      />
     </View>
   );
 };
@@ -56,16 +59,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
-  item: {
-    backgroundColor: 'blue',
+  item_header: {
+    backgroundColor: 'skyblue',
     alignItems: 'center',
     justifyContent: 'center',
     height: 75,
     margin: 20,
   },
-
+  item: {
+    backgroundColor: 'orange',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
+    margin: 20,
+  },
   text: {
-    color: 'purple',
+    color: 'green',
     fontSize: 30,
     fontStyle: 'italic',
   },
