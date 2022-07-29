@@ -2,17 +2,23 @@
 import React, { useState } from 'react';
 
 import {
+  Button,
   RefreshControl,
   SectionList,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
 const App = () => {
 
   const [name, setName] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const onPressHandler = () => {
+    setSubmitted(!submitted);
+  }
   return (
     <View style={styles.body}>
       <Text style={styles.text}>
@@ -23,9 +29,26 @@ const App = () => {
         onChangeText={(val) => setName(val)}
         keyboardType='number-pad'
       />
+      {/* <Button
+        title={submitted? 'Clear' : 'Submit'}
+        onPress={onPressHandler}
+        color='green'
+      /> */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onPressHandler}
+        activeOpacity={0.4}
+        
+      >
+        <Text style={styles.text}>
+        {submitted? 'Clear' : 'Submit'}
+        </Text>
+      </TouchableOpacity>
+      {submitted?
       <Text style={styles.text}>
         You typed : {name}
       </Text>
+      : null}
     </View>
   )
 };
@@ -48,7 +71,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 220,
     padding: 9,
-
+    margin: 10,
+  },
+  button: {
+    width: 150, height: 50,
+    backgroundColor: 'yellow',
+    alignItems: 'center',
   }
 });
 
