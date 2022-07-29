@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import {
   Button,
+  Pressable,
   RefreshControl,
   SectionList,
   StyleSheet,
@@ -36,21 +37,30 @@ const App = () => {
         onPress={onPressHandler}
         color='green'
       /> */}
-      <TouchableHighlight // <TouchableWithoutFeedback
+      {/* <TouchableHighlight // <TouchableWithoutFeedback
         style={styles.button}
         onPress={onPressHandler}
         activeOpacity={0.4}
         underlayColor='green'
-      >
+      > */}
+      <Pressable
+        onPress={onPressHandler}
+        style={
+          ({ pressed }) => [ styles.button,
+            { backgroundColor: pressed ? 'grey' : '#0f0' }
+          ]
+        }
+        hitSlop={{top: 10, bottom:15}}
+        >
         <Text style={styles.text}>
-        {submitted? 'Clear' : 'Submit'}
+          {submitted ? 'Clear' : 'Submit'}
         </Text>
-      </TouchableHighlight>
-      {submitted?
-      <Text style={styles.text}>
-        You typed : {name}
-      </Text>
-      : null}
+      </Pressable>
+      {submitted ?
+        <Text style={styles.text}>
+          You typed : {name}
+        </Text>
+        : null}
     </View>
   )
 };
