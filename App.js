@@ -2,25 +2,27 @@
 import React, { useState } from 'react';
 
 import {
-  Button,
+  Alert,
   Pressable,
-  RefreshControl,
-  SectionList,
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
 const App = () => {
 
   const [name, setName] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmittedg] = useState(false);
   const onPressHandler = () => {
+    if(name.length > 2) {
     setSubmitted(!submitted);
+    } else {
+      Alert.alert('Warning', 'The name must be longer than 2 characters',
+      [{text:'OK', onPress: ()=> console.warn('OK Pressed')}],
+      {cancelable: true, onDismiss: ()=>console.info('Aler is colosed')}
+      )
+    }
   }
   return (
     <View style={styles.body}>
