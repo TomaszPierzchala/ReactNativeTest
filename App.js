@@ -11,6 +11,8 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
+import MyButtom from './src/CustomButton';
+import Header from './src/Header';
 
 const App = () => {
 
@@ -30,6 +32,7 @@ const App = () => {
       style={styles.body}
       source={{ uri: 'https://cdn.pixabay.com/photo/2013/07/12/12/35/texture-145968_960_720.png' }}
     >
+      <Header/>
       <Modal
         visible={showModalWarning}
         transparent
@@ -61,7 +64,19 @@ const App = () => {
         onChangeText={(val) => setName(val)}
         keyboardType='number-pad'
       />
-      <Pressable
+      <MyButtom
+      onPressFunction={onPressHandler}
+      title={submitted ? 'Clear' : 'Submit'}
+      color='#0f0'
+      />
+      <MyButtom
+      onPressFunction={onPressHandler}
+      title={submitted ? 'Clear' : 'Submit'}
+      color='purple'
+      text_style={{color: '#eee'}}
+      style={{margin: 10}}
+      />
+      {/* <Pressable
         onPress={onPressHandler}
         style={
           ({ pressed }) => [styles.button,
@@ -73,7 +88,7 @@ const App = () => {
         <Text style={styles.text}>
           {submitted ? 'Clear' : 'Submit'}
         </Text>
-      </Pressable>
+      </Pressable> */}
       {
         submitted ?
           <View style={styles.body}>
@@ -123,11 +138,6 @@ const styles = StyleSheet.create({
     width: 220,
     padding: 9,
     margin: 10,
-  },
-  button: {
-    width: 150, height: 50,
-    backgroundColor: 'yellow',
-    alignItems: 'center',
   },
   modal_centered: {
     flex: 1,
