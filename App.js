@@ -8,6 +8,8 @@ import {
   TextInput,
   View,
   Modal,
+  Image,
+  ImageBackground,
 } from 'react-native';
 
 const App = () => {
@@ -24,7 +26,10 @@ const App = () => {
     }
   }
   return (
-    <View style={styles.body}>
+    <ImageBackground
+      style={styles.body}
+      source={{ uri: 'https://cdn.pixabay.com/photo/2013/07/12/12/35/texture-145968_960_720.png' }}
+    >
       <Modal
         visible={showModalWarning}
         transparent
@@ -71,12 +76,25 @@ const App = () => {
       </Pressable>
       {
         submitted ?
-          <Text style={styles.text}>
-            You typed : {name}
-          </Text>
-          : null
+          <View style={styles.body}>
+            <Text style={styles.text}>
+              You typed : {name}
+            </Text>
+            <Image
+              style={styles.image_done}
+              source={require('./assets/done.png')}
+            // resizeMode='stretch'
+            />
+          </View>
+          :
+          <Image
+            style={styles.image_error}
+            source={require('./assets/error.png')}
+            resizeMode='stretch'
+            blurRadius={2}
+          />
       }
-    </View >
+    </ImageBackground >
   )
 };
 
@@ -145,6 +163,18 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: 'skyblue',
     borderRadius: 15,
+  },
+  image_error: {
+    width: 80,
+    height: 72,
+    margin: 20,
+
+  },
+  image_done: {
+    width: 80,
+    height: 80,
+    margin: 20,
+
   }
 });
 
