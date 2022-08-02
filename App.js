@@ -2,30 +2,52 @@
 import React, { useState } from 'react';
 
 import {
-  Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
+  Modal,
 } from 'react-native';
 
 const App = () => {
 
   const [name, setName] = useState('');
-  const [submitted, setSubmittedg] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [showModalWarning, setShowWarning] = useState(false);
+
   const onPressHandler = () => {
-    if(name.length > 2) {
-    setSubmitted(!submitted);
+    if (name.length > 2) {
+      setSubmitted(!submitted);
     } else {
-      Alert.alert('Warning', 'The name must be longer than 2 characters',
-      [{text:'OK', onPress: ()=> console.warn('OK Pressed')}],
-      {cancelable: true, onDismiss: ()=>console.info('Aler is colosed')}
-      )
+      setShowWarning(true)
     }
   }
   return (
     <View style={styles.body}>
+      <Modal
+        visible={showModalWarning}
+        transparent
+        onRequestClose={() => setShowWarning(false)}
+        animationType='slide'
+        hardwareAccelerated
+      >
+        <View style={styles.modal_centered}>
+          <View style={styles.modal_warning}>
+            <View style={styles.warning_title}>
+              <Text style={styles.modal_text}>WARNING !</Text>
+            </View>
+            <View style={styles.warning_body}>
+              <Text style={styles.modal_text}>The name must be longer then 2 characters</Text>
+            </View>
+            <Pressable style={styles.ok}
+              android_ripple={{ color: '#00f' }}
+              onPress={() => setShowWarning(false)}>
+              <Text style={styles.modal_text}>OK</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <Text style={styles.text}>
         Please insert your name:
       </Text>
@@ -34,36 +56,27 @@ const App = () => {
         onChangeText={(val) => setName(val)}
         keyboardType='number-pad'
       />
-      {/* <Button
-        title={submitted? 'Clear' : 'Submit'}
-        onPress={onPressHandler}
-        color='green'
-      /> */}
-      {/* <TouchableHighlight // <TouchableWithoutFeedback
-        style={styles.button}
-        onPress={onPressHandler}
-        activeOpacity={0.4}
-        underlayColor='green'
-      > */}
       <Pressable
         onPress={onPressHandler}
         style={
-          ({ pressed }) => [ styles.button,
-            { backgroundColor: pressed ? 'grey' : '#0f0' }
+          ({ pressed }) => [styles.button,
+          { backgroundColor: pressed ? 'grey' : '#0f0' }
           ]
         }
-        hitSlop={{top: 10, bottom:15}}
-        >
+        hitSlop={{ top: 10, bottom: 15 }}
+      >
         <Text style={styles.text}>
           {submitted ? 'Clear' : 'Submit'}
         </Text>
       </Pressable>
-      {submitted ?
-        <Text style={styles.text}>
-          You typed : {name}
-        </Text>
-        : null}
-    </View>
+      {
+        submitted ?
+          <Text style={styles.text}>
+            You typed : {name}
+          </Text>
+          : null
+      }
+    </View >
   )
 };
 
@@ -80,6 +93,12 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     margin: 10,
   },
+  modal_text: {
+    fontSize: 20,
+    fontStyle: 'italic',
+    margin: 5,
+    textAlign: 'center'
+  },
   input: {
     borderWidth: 1,
     borderRadius: 20,
@@ -91,6 +110,41 @@ const styles = StyleSheet.create({
     width: 150, height: 50,
     backgroundColor: 'yellow',
     alignItems: 'center',
+  },
+  modal_centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0044ee55'
+  },
+  modal_warning: {
+    width: 300,
+    height: 200,
+    backgroundColor: '#0489',
+    borderWidth: 2,
+    borderColor: "#00a",
+    borderRadius: 40,
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  warning_title: {
+    height: 50,
+    width: 300,
+    backgroundColor: 'yellow',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    justifyContent: 'center',
+  },
+  warning_body: {
+    height: 90,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  ok: {
+    width: 50,
+    height: 40,
+    backgroundColor: 'skyblue',
+    borderRadius: 15,
   }
 });
 
